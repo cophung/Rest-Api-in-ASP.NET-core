@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MusicApi.Data;
+using MusicApi.Services;
 
 namespace MusicApi
 {
@@ -24,11 +26,20 @@ namespace MusicApi
 
             services.AddControllers();
             services.AddMvc().AddXmlSerializerFormatters();
+            //services.AddApiVersioning(x =>
+            //{
+            //    x.ApiVersionReader = new HeaderApiVersionReader("x-api-version");
+            //});
+            services.AddApiVersioning(x =>
+            {
+                x.ApiVersionReader = new MediaTypeApiVersionReader();
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MusicApi", Version = "v1" });
             });
-            services.AddDbContext<ApiDbContext>(option => option.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MusicDb;"));
+            services.AddDbContext<ApiDbContext>(option => option.UseNpgsql(Configuration.GetConnectionString("DbConnection")));
+            services.AddScoped<IArtist, ArtistRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
