@@ -2,15 +2,16 @@
 
 namespace MusicApi.Controllers
 {
-    //[ApiController]
-    //[ApiVersion("1.0")]
-    //[Route("api/SongsVersion")]
+    [ApiController]
+    [Route("api/SongsVersion")]
+    [ApiVersion("1.0")]
     public class SongsV1 : ControllerBase
     {
-        //[HttpGet]
-        //public IActionResult Get()
-        //{
-        //    return Ok("Version 1.0");
-        //}
+        [MapToApiVersion("1.0")]
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok("Songs Version 1.0");
+        }
     }
 }
