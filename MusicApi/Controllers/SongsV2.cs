@@ -7,7 +7,7 @@ namespace MusicApi.Controllers
     [ApiVersion("2.0")]
     public class SongsV2 : ControllerBase
     {
-        [MapToApiVersion("2.0")]
+        //[MapToApiVersion("2.0")]
         [HttpGet]
         public IActionResult Get()
         {
